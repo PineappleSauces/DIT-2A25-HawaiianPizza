@@ -22,3 +22,10 @@ btn[2].addEventListener('click', function(){
     }
     this.classList.add('active');
 });
+
+import useButtonSound from "../hooks/useButtonSound";
+
+export default function ProductPage() {
+  useButtonSound(); // activate sound effect
+  
+}
