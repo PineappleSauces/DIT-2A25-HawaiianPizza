@@ -22,3 +22,18 @@ model Person {
   name   String
   avatar String?
 }
+
+//Category model for filtering items by category, assisted by AI
+model Category {
+  id    Int     @id @default(autoincrement())
+  name  String 
+  items Item[]
+}
+
+//Item model for items in the category, assisted by AI
+model Item {
+  id          Int      @id @default(autoincrement())
+  name        String
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+}
