@@ -1,181 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Chase's Cars | Profile Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <div class="page">
-      <!-- Navbar -->
-      <header class="navbar">
-        <a href="index.html" class="navbar-left brand-link">
-          <div class="brand-mark"></div>
-          <div>
-            <div class="brand-text-main">Chase's Cars</div>
-            <div class="brand-text-sub">Night Market Garage</div>
+<head>
+  <meta charset="utf-8" />
+  <title>Profile | Chase's Cars</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    /* Layout overrides for auth forms */
+    .auth-panel { max-width: 520px; margin: 28px auto; padding: 18px; }
+    .auth-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom:12px; }
+    .auth-single { margin-bottom:12px; }
+    label { display:block; font-weight:600; margin-bottom:6px; color:var(--text-main); font-family:Inter; font-size:0.95rem; }
+    input { width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(148,163,184,0.12); background: rgba(3,7,18,0.6); color:var(--text-main); }
+    .small-note { font-size:0.85rem; color:var(--text-muted); margin-top:8px; text-align:center; }
+    .action-row { display:flex; gap:12px; margin-top:10px; }
+    .action-row .btn { flex:1; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="navbar">
+      <a href="index.html" class="navbar-left brand-link">
+        <div class="brand-mark"></div>
+        <div>
+          <div class="brand-text-main">Chase's Cars</div>
+          <div class="brand-text-sub">Night Market Garage</div>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="cars.html">Cars</a>
+        <a class="nav-link" href="parts.html">Car Parts</a>
+        <a class="nav-link" href="deals.html">Deals</a>
+        <a class="nav-link" href="profile.html">Profile</a>
+      </nav>
+      <div class="nav-profile"><a href="profile.html" id="navGreeting">Hello, Guest</a></div>
+    </header>
+
+    <main class="content">
+      <section class="section-header">
+        <h1 class="section-title">Your Profile</h1>
+        <p class="section-subtitle">Register, login, or update your profile below.</p>
+      </section>
+
+      <div class="auth-panel">
+        <!-- Login section -->
+        <div id="loginView">
+          <div class="auth-single">
+            <label for="loginName">Name</label>
+            <input id="loginName" type="text" />
           </div>
-        </a>
-        <nav class="nav-links">
-          <a class="nav-link" href="index.html">Home</a>
-          <a class="nav-link" href="cars.html">Cars</a>
-          <a class="nav-link" href="parts.html">Car Parts</a>
-          <a class="nav-link" href="deals.html">Deals</a>
-          <a class="nav-link" href="profile.html">Profile</a>
-        </nav>
-        <div class="nav-profile">
-          <span class="nav-tag">Catalog</span>
-          <div class="nav-avatar"></div>
+          <div class="auth-single">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" />
+          </div>
+          <div class="action-row">
+            <button id="loginBtn" class="btn btn-primary">Login</button>
+            <button id="showRegisterBtn" class="btn btn-ghost">Register</button>
+          </div>
+          <div class="small-note">Login requires <strong>name</strong> and <strong>password</strong>.</div>
         </div>
-      </header>
 
-      <main>
-        <section class="section-header">
-          <h1 class="section-title">Cars</h1>
-          <p class="section-subtitle">
-            Pick your base chassis. Comparison & cart are frontend-only stubs for
-            now.
-          </p>
-        </section>
+        <!-- Register section -->
+        <div id="registerView" style="display:none;">
+          <div class="auth-row">
+            <div>
+              <label for="regName">Name</label>
+              <input id="regName" type="text" />
+            </div>
+            <div>
+              <label for="regEmail">Email</label>
+              <input id="regEmail" type="email" />
+            </div>
+          </div>
 
-        <!-- Filters (UI only for now) -->
-        <section class="filters-bar">
-          <button class="filter-pill active">All</button>
-          <button class="filter-pill">JDM</button>
-          <button class="filter-pill">Euro</button>
-          <button class="filter-pill">Muscle</button>
-          <button class="filter-pill">AWD</button>
-        </section>
+          <div class="auth-row">
+            <div>
+              <label for="regPassword">Password</label>
+              <input id="regPassword" type="password" />
+            </div>
+            <div>
+              <label for="regAddress">Address</label>
+              <input id="regAddress" type="text" />
+            </div>
+          </div>
 
-        <!-- Cars grid -->
-        <section class="product-grid">
-          <!-- Example car card 1 -->
-          <article
-            class="product-card"
-            data-product-id="rx7"
-            data-product-name="2002 Nightspec RX-7"
-            data-product-type="JDM"
-            data-product-power="420 HP"
-            data-product-price-display="$128,000"
-          >
-            <div class="product-tag">JDM • RWD</div>
-            <div class="product-name">2002 Nightspec RX-7</div>
-            <div class="product-meta">
-              Twin-turbo rotary build tuned for tight city circuits and drift
-              entries.
-            </div>
-            <div class="product-price-row">
-              <span class="product-price">$128,000</span>
-              <span class="text-muted">Est. 420 HP</span>
-            </div>
-            <div class="product-actions">
-              <button class="btn btn-ghost" type="button" data-compare-toggle>
-                Compare
-              </button>
-              <button class="btn btn-primary" type="button" data-add-cart>
-                Add to Cart
-              </button>
-            </div>
-          </article>
-
-          <!-- Example car card 2 -->
-          <article
-            class="product-card"
-            data-product-id="gtr"
-            data-product-name="2019 Skyline GTR R35"
-            data-product-type="AWD"
-            data-product-power="565 HP"
-            data-product-price-display="$210,000"
-          >
-            <div class="product-tag">AWD • GT</div>
-            <div class="product-name">2019 Skyline GTR R35</div>
-            <div class="product-meta">
-              All-wheel drive monster, perfect for high-speed highway pulls and
-              time attack.
-            </div>
-            <div class="product-price-row">
-              <span class="product-price">$210,000</span>
-              <span class="text-muted">Est. 565 HP</span>
-            </div>
-            <div class="product-actions">
-              <button class="btn btn-ghost" type="button" data-compare-toggle>
-                Compare
-              </button>
-              <button class="btn btn-primary" type="button" data-add-cart>
-                Add to Cart
-              </button>
-            </div>
-          </article>
-
-          <!-- Example car card 3 -->
-          <article
-            class="product-card"
-            data-product-id="mustang"
-            data-product-name="2020 Mustang GT"
-            data-product-type="Muscle"
-            data-product-power="460 HP"
-            data-product-price-display="$95,000"
-          >
-            <div class="product-tag">Muscle • RWD</div>
-            <div class="product-name">2020 Mustang GT</div>
-            <div class="product-meta">
-              Big V8, big attitude. Built for loud exits and clean quarter-mile
-              times.
-            </div>
-            <div class="product-price-row">
-              <span class="product-price">$95,000</span>
-              <span class="text-muted">Est. 460 HP</span>
-            </div>
-            <div class="product-actions">
-              <button class="btn btn-ghost" type="button" data-compare-toggle>
-                Compare
-              </button>
-              <button class="btn btn-primary" type="button" data-add-cart>
-                Add to Cart
-              </button>
-            </div>
-          </article>
-        </section>
-      </main>
-    </div>
-
-    <!-- Compare bar (shared across catalog pages) -->
-    <div class="compare-bar" id="compareBar">
-      <div class="compare-list" id="compareList"></div>
-      <button class="btn btn-primary" id="compareNowButton" type="button">
-        Compare Selected
-      </button>
-    </div>
-
-    <!-- Compare modal -->
-    <div class="modal-backdrop" id="compareBackdrop">
-      <div class="modal">
-        <div class="modal-header">
-          <h2 class="section-title" style="font-size: 0.9rem">Compare</h2>
-          <button
-            class="btn btn-ghost"
-            type="button"
-            id="compareCloseButton"
-            style="font-size: 0.75rem; padding-inline: 10px"
-          >
-            Close
-          </button>
+          <div class="action-row">
+            <button id="registerBtn" class="btn btn-primary">Sign up</button>
+            <button id="showLoginBtn" class="btn btn-ghost">Back to login</button>
+          </div>
         </div>
-        <table class="modal-table">
-          <thead>
-            <tr>
-              <th>Car</th>
-              <th>Type</th>
-              <th>Power</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody id="compareTableBody"></tbody>
-        </table>
+
+        <!-- Profile edit (visible when logged in) -->
+        <div id="profileView" style="display:none;">
+          <div class="auth-row">
+            <div>
+              <label for="profileName">Name</label>
+              <input id="profileName" type="text" />
+            </div>
+            <div>
+              <label for="profileEmail">Email</label>
+              <input id="profileEmail" type="email" />
+            </div>
+          </div>
+
+          <div class="auth-single">
+            <label for="profileAddress">Address</label>
+            <input id="profileAddress" type="text" />
+          </div>
+
+          <div class="action-row">
+            <button id="updateProfileBtn" class="btn btn-primary">Update Profile</button>
+            <button id="logoutBtn" class="btn btn-ghost">Logout</button>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
+  </div>
 
-    <script src="./script.js"></script>
-  </body>
+  <script src="./script.js"></script>
+</body>
 </html>
