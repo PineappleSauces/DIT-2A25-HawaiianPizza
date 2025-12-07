@@ -6,18 +6,11 @@ async function getAllCars(req, res) {
 }
 
 async function getCar(req, res) {
-  const carsid = req.params.carsid;
-  const car = await carsModels.getCarByCarsId(carsid);
+  const car = await carsModels.getCarByCarsId(req.params.carsid);
   res.json(car);
-}
-
-async function createCar(req, res) {
-  const newCar = await carsModels.createCar(req.body);
-  res.status(201).json(newCar);
 }
 
 module.exports = {
   getAllCars,
-  getCar,
-  createCar
+  getCar
 };
