@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
-
-// IMPORT CONTROLLER (matches your file name!)
-const carsControllers = require('../controllers/carsControllers.js');
+const carsControllers = require('../controllers/carsControllers');
 
 // GET all cars
 router.get('/', carsControllers.getAllCars);
 
-// GET one car by productId
-router.get('/:productId', carsControllers.getCarByProductId);
+// GET car by carsid
+router.get('/:carsid', carsControllers.getCar);
 
-// POST new car
+// POST create new car
 router.post('/', carsControllers.createCar);
 
 module.exports = router;
