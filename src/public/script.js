@@ -31,7 +31,7 @@ async function register() {
   const address = document.getElementById('regAddress').value;
 
   try {
-    const res = await fetch('/auth/register', {
+    const res = await fetch('http://localhost:3000/auth/register', {
       method: 'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({name,email,password,address})
@@ -48,7 +48,7 @@ async function login() {
   const name = document.getElementById('loginName').value;
   const password = document.getElementById('loginPassword').value;
   try {
-    const res = await fetch('/auth/login', {
+    const res = await fetch('http://localhost:3000/auth/login', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({name,password})
@@ -65,7 +65,7 @@ async function loadProfile() {
   const token = getToken();
   if (!token) return showView(loginView);
   try {
-    const res = await fetch('/user', { headers:{'Authorization':'Bearer '+token}});
+    const res = await fetch('http://localhost:3000/user', { headers:{'Authorization':'Bearer '+token}});
     const data = await res.json();
     if (res.ok) {
       document.getElementById('profileName').value = data.name;
@@ -83,7 +83,7 @@ async function updateProfile() {
   const address = document.getElementById('profileAddress').value;
 
   try {
-    const res = await fetch('/user', {
+    const res = await fetch('http://localhost:3000/user', {
       method:'PUT',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
       body: JSON.stringify({name,email,address})
