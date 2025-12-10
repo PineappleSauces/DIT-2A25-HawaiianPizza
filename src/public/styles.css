@@ -644,3 +644,9 @@ body {
 .hidden {
   display: none !important;
 }
+
+#navGreeting {
+  color: #00f5ff;
+  text-shadow: 0 0 8px rgba(0, 245, 255, 0.7);
+  font-weight: 600;
+}

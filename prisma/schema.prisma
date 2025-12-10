@@ -25,3 +25,20 @@ model cars {
   description   String
   carsid        String
 }
+
+//Item model for items in the category, assisted by AI
+model Item {
+  id          Int      @id @default(autoincrement())
+  name        String
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+}
+model CartItem {
+  id         Int      @id @default(autoincrement())
+  productId  Int      
+  name       String   
+  type       String?  
+  unitPrice  Int      
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+}
