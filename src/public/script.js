@@ -120,7 +120,7 @@ async function register() {
   const address = document.getElementById('regAddress').value;
 
   try {
-    const res = await fetch('/auth/register', {
+    const res = await fetch('http://localhost:3000/auth/register', {
       method: 'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({name,email,password,address})
@@ -137,7 +137,7 @@ async function login() {
   const name = document.getElementById('loginName').value;
   const password = document.getElementById('loginPassword').value;
   try {
-    const res = await fetch('/auth/login', {
+    const res = await fetch('http://localhost:3000/auth/login', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({name,password})
@@ -154,7 +154,7 @@ async function loadProfile() {
   const token = getToken();
   if (!token) return showView(loginView);
   try {
-    const res = await fetch('/user', { headers:{'Authorization':'Bearer '+token}});
+    const res = await fetch('http://localhost:3000/user', { headers:{'Authorization':'Bearer '+token}});
     const data = await res.json();
     if (res.ok) {
       document.getElementById('profileName').value = data.name;
@@ -172,7 +172,7 @@ async function updateProfile() {
   const address = document.getElementById('profileAddress').value;
 
   try {
-    const res = await fetch('/user', {
+    const res = await fetch('http://localhost:3000/user', {
       method:'PUT',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
       body: JSON.stringify({name,email,address})
@@ -201,6 +201,80 @@ function addToCartFromCard(cardEl) {
   alert(`Added to cart: ${name}. Cart integration will be handled by the backend.`);
 }
 
+//Carousel
+function initHeroCarousel() {
+  const carousel = document.querySelector("[data-hero-carousel]");
+  if (!carousel) return;
+
+  const slides = Array.from(carousel.querySelectorAll("[data-hero-slide]"));
+  const dots = Array.from(carousel.querySelectorAll("[data-hero-dot]"));
+  const prevBtn = carousel.querySelector("[data-hero-prev]");
+  const nextBtn = carousel.querySelector("[data-hero-next]");
+
+  if (!slides.length || slides.length !== dots.length) return;
+
+  let currentIndex = 0;
+  let timerId = null;
+  const AUTO_ROTATE_MS = 6000;
+
+  function setActive(index) {
+    currentIndex = (index + slides.length) % slides.length;
+
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === currentIndex);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === currentIndex);
+    });
+  }
+
+  function startTimer() {
+    stopTimer();
+    timerId = setInterval(() => {
+      setActive(currentIndex + 1);
+    }, AUTO_ROTATE_MS);
+  }
+
+  function stopTimer() {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      setActive(index);
+      startTimer();
+    });
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      setActive(currentIndex - 1);
+      startTimer();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      setActive(currentIndex + 1);
+      startTimer();
+    });
+  }
+
+  carousel.addEventListener("mouseenter", stopTimer);
+  carousel.addEventListener("mouseleave", startTimer);
+
+  // Initialize
+  setActive(0);
+  startTimer();
+}
+
+
+
+// Page wiring
 // --------- DYNAMIC CARS LOADING ---------
 
 async function fetchCars() {
@@ -328,6 +402,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 loginBtn.onclick = login;
 registerBtn.onclick = register;
 updateProfileBtn.onclick = updateProfile;
+
+  initHeroCarousel();
 
 // Auto-load profile if token exists
 document.addEventListener('DOMContentLoaded', loadProfile);
