@@ -809,3 +809,8 @@ body {
 .btn-ghost:active {
   transform: scale(0.98);
 }
+#navGreeting {
+  color: #00f5ff;
+  text-shadow: 0 0 8px rgba(0, 245, 255, 0.7);
+  font-weight: 600;
+}

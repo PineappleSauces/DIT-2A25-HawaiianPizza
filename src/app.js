@@ -1,4 +1,7 @@
 const express = require('express');
+const cors = require('cors');
+const authRouter = require('./routers/Auth.router');
+const userRouter = require('./routers/User.router');
 const createError = require('http-errors');
 
 const somethingRouter = require('./routers/Something.router');
@@ -8,13 +11,17 @@ const cartRouter = require('./routers/Cart.router');
 const path = require('path');
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+//cars page routes
+app.use('/cars', require('./routers/carsRoutes'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/somethings', somethingRouter);
 app.use('/persons', personRouter);
 app.use('/cart', cartRouter);
-
 
 app.use((req, res, next) => {
   next(createError(404, `Unknown resource ${req.method} ${req.originalUrl}`));
@@ -27,5 +34,8 @@ app.use((error, req, res, next) => {
     .status(error.status || 500)
     .json({ error: error.message || 'Unknown Server Error!' });
 });
+
+app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 module.exports = app;
