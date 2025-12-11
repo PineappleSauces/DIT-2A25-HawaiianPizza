@@ -20,9 +20,21 @@ function showView(view) {
   view.style.display = 'block';
 }
 
-showRegisterBtn.onclick = () => showView(registerView);
-showLoginBtn.onclick = () => showView(loginView);
-logoutBtn.onclick = () => { removeToken(); showView(loginView); };
+if (showRegisterBtn) {
+  showRegisterBtn.onclick = () => showView(registerView);
+}
+
+if (showLoginBtn) {
+  showLoginBtn.onclick = () => showView(loginView);
+}
+
+if (logoutBtn) {
+  logoutBtn.onclick = () => {
+    removeToken();
+    showView(loginView);
+  };
+}
+
 // ====== CONFIG ======
 const API_BASE_URL = 'http://localhost:3000'; // backend origin
 
@@ -133,6 +145,13 @@ async function register() {
   } catch(err){ console.error(err); alert('Error registering'); }
 }
 }
+
+function closeCompareModal() {
+  const backdrop = document.getElementById("compareBackdrop");
+  if (!backdrop) return;
+  backdrop.style.display = "none";
+}
+
 async function login() {
   const name = document.getElementById('loginName').value;
   const password = document.getElementById('loginPassword').value;
@@ -399,9 +418,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
 // Attach event listeners
-loginBtn.onclick = login;
-registerBtn.onclick = register;
-updateProfileBtn.onclick = updateProfile;
+if (loginBtn) {
+  loginBtn.onclick = login;
+}
+
+if (registerBtn) {
+  registerBtn.onclick = register;
+}
+
+if (updateProfileBtn) {
+  updateProfileBtn.onclick = updateProfile;
+}
+
 
   initHeroCarousel();
 
