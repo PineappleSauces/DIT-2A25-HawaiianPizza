@@ -1,3 +1,28 @@
+const loginView = document.getElementById('loginView');
+const registerView = document.getElementById('registerView');
+const profileView = document.getElementById('profileView');
+
+const showRegisterBtn = document.getElementById('showRegisterBtn');
+const showLoginBtn = document.getElementById('showLoginBtn');
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const updateProfileBtn = document.getElementById('updateProfileBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+
+function setToken(token) { localStorage.setItem('token', token); }
+function getToken() { return localStorage.getItem('token'); }
+function removeToken() { localStorage.removeItem('token'); }
+
+function showView(view) {
+  loginView.style.display = 'none';
+  registerView.style.display = 'none';
+  profileView.style.display = 'none';
+  view.style.display = 'block';
+}
+
+showRegisterBtn.onclick = () => showView(registerView);
+showLoginBtn.onclick = () => showView(loginView);
+logoutBtn.onclick = () => { removeToken(); showView(loginView); };
 // ====== CONFIG ======
 const API_BASE_URL = 'http://localhost:3000'; // backend origin
 
@@ -88,52 +113,76 @@ function openCompareModal() {
 
   if (!backdrop || !tableBody) return;
 
-  tableBody.innerHTML = "";
+async function register() {
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  const password = document.getElementById('regPassword').value;
+  const address = document.getElementById('regAddress').value;
 
-  items.forEach((item) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${item.name}</td>
-      <td>${item.type}</td>
-      <td>${item.power || "-"}</td>
-      <td>${item.priceDisplay || "-"}</td>
-    `;
-    tableBody.appendChild(row);
-  });
-
-  backdrop.style.display = items.length ? "flex" : "none";
+  try {
+    const res = await fetch('http://localhost:3000/auth/register', {
+      method: 'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name,email,password,address})
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setToken(data.token);
+      loadProfile();
+    } else { alert(data.error); }
+  } catch(err){ console.error(err); alert('Error registering'); }
 }
 
-function closeCompareModal() {
-  const backdrop = document.getElementById("compareBackdrop");
-  if (backdrop) {
-    backdrop.style.display = "none";
-  }
+async function login() {
+  const name = document.getElementById('loginName').value;
+  const password = document.getElementById('loginPassword').value;
+  try {
+    const res = await fetch('http://localhost:3000/auth/login', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name,password})
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setToken(data.token);
+      loadProfile();
+    } else { alert(data.error); }
+  } catch(err){ console.error(err); alert('Error logging in'); }
 }
 
-// Toggle compare for a card
-function toggleCompareForCard(cardEl) {
-  const id = cardEl.dataset.productId;
-  const name = cardEl.dataset.productName;
-  const type = cardEl.dataset.productType || "Car";
-  const power = cardEl.dataset.productPower || "";
-  const priceDisplay = cardEl.dataset.productPriceDisplay || "";
-
-  if (!id || !name) return;
-
-  let items = getCompareItems();
-  const existingIndex = items.findIndex((x) => x.id === id);
-
-  if (existingIndex >= 0) {
-    items.splice(existingIndex, 1);
-  } else {
-    items.push({ id, name, type, power, priceDisplay });
-  }
-
-  setCompareItems(items);
-  renderCompareBar();
+async function loadProfile() {
+  const token = getToken();
+  if (!token) return showView(loginView);
+  try {
+    const res = await fetch('http://localhost:3000/user', { headers:{'Authorization':'Bearer '+token}});
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById('profileName').value = data.name;
+      document.getElementById('profileEmail').value = data.email;
+      document.getElementById('profileAddress').value = data.address;
+      showView(profileView);
+    } else { showView(loginView); }
+  } catch(err){ console.error(err); showView(loginView); }
 }
 
+async function updateProfile() {
+  const token = getToken();
+  const name = document.getElementById('profileName').value;
+  const email = document.getElementById('profileEmail').value;
+  const address = document.getElementById('profileAddress').value;
+
+  try {
+    const res = await fetch('http://localhost:3000/user', {
+      method:'PUT',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({name,email,address})
+    });
+    const data = await res.json();
+    if (!res.ok) return alert(data.error);
+    alert('Profile updated!');
+    loadProfile();
+  } catch(err){ console.error(err); alert('Error updating profile'); }
+}
 // --------- CART (front-end stub for now) ---------
 
 function addToCartFromCard(cardEl) {
@@ -152,6 +201,80 @@ function addToCartFromCard(cardEl) {
   alert(`Added to cart: ${name}. Cart integration will be handled by the backend.`);
 }
 
+//Carousel
+function initHeroCarousel() {
+  const carousel = document.querySelector("[data-hero-carousel]");
+  if (!carousel) return;
+
+  const slides = Array.from(carousel.querySelectorAll("[data-hero-slide]"));
+  const dots = Array.from(carousel.querySelectorAll("[data-hero-dot]"));
+  const prevBtn = carousel.querySelector("[data-hero-prev]");
+  const nextBtn = carousel.querySelector("[data-hero-next]");
+
+  if (!slides.length || slides.length !== dots.length) return;
+
+  let currentIndex = 0;
+  let timerId = null;
+  const AUTO_ROTATE_MS = 6000;
+
+  function setActive(index) {
+    currentIndex = (index + slides.length) % slides.length;
+
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === currentIndex);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === currentIndex);
+    });
+  }
+
+  function startTimer() {
+    stopTimer();
+    timerId = setInterval(() => {
+      setActive(currentIndex + 1);
+    }, AUTO_ROTATE_MS);
+  }
+
+  function stopTimer() {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      setActive(index);
+      startTimer();
+    });
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      setActive(currentIndex - 1);
+      startTimer();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      setActive(currentIndex + 1);
+      startTimer();
+    });
+  }
+
+  carousel.addEventListener("mouseenter", stopTimer);
+  carousel.addEventListener("mouseleave", startTimer);
+
+  // Initialize
+  setActive(0);
+  startTimer();
+}
+
+
+
+// Page wiring
 // --------- DYNAMIC CARS LOADING ---------
 
 async function fetchCars() {
@@ -275,13 +398,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     compareCloseButton.addEventListener("click", closeCompareModal);
   }
 
-  const compareBackdrop = document.getElementById("compareBackdrop");
-  if (compareBackdrop) {
-    compareBackdrop.addEventListener("click", (e) => {
-      if (e.target === compareBackdrop) closeCompareModal();
-    });
-  }
+// Attach event listeners
+loginBtn.onclick = login;
+registerBtn.onclick = register;
+updateProfileBtn.onclick = updateProfile;
 
+  initHeroCarousel();
+
+// Auto-load profile if token exists
+document.addEventListener('DOMContentLoaded', loadProfile);
   renderCompareBar();
 
   // 🔥 Load cars from backend + render cards

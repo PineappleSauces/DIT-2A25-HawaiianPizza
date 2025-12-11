@@ -23,12 +23,14 @@
           <a class="nav-link" href="parts.html">Car Parts</a>
           <a class="nav-link" href="deals.html">Deals</a>
           <a class="nav-link" href="profile.html">Profile</a>
+          <a class="nav-link" href="cart.html">Cart</a>
         </nav>
         <div class="nav-profile">
-          <span class="nav-tag">NFS Inspired</span>
+          <span class="nav-tag">Catalog</span>
           <div class="nav-avatar"></div>
+          <a href="profile.html" id="navGreeting">Hello, Guest</a>
         </div>
-      </header>
+        </header>
 
       <!-- Hero -->
       <main>
@@ -58,38 +60,155 @@
             </p>
           </div>
 
-          <!-- Right hero card -->
-          <aside class="hero-card">
-            <div class="hero-car-label">Featured build</div>
-            <div class="hero-car-name">2002 Nightspec RX-7</div>
-            <div class="hero-card-strip">
-              <span class="hero-tag-pill">Twin-Turbo Rotary</span>
-              <span class="hero-tag-pill">Midnight Blue</span>
-              <span class="hero-tag-pill">Street Legal*</span>
-            </div>
-            <div class="hero-spec-grid">
-              <div>
-                <div class="hero-spec-label">Power</div>
-                <div class="hero-spec-value">420 HP</div>
-              </div>
-              <div>
-                <div class="hero-spec-label">0–100 km/h</div>
-                <div class="hero-spec-value">4.1 s</div>
-              </div>
-              <div>
-                <div class="hero-spec-label">Drive</div>
-                <div class="hero-spec-value">RWD</div>
-              </div>
-            </div>
-            <div class="hero-price-row">
-              <div>
-                <div class="hero-spec-label">Starting from</div>
-                <div class="hero-main-price">$128,000</div>
-              </div>
-              <div class="text-muted">Tap “Browse Cars” to see catalog</div>
-            </div>
-            <div class="hero-dummy-car"></div>
-          </aside>
+         <!-- Hero card carousel -->
+<aside class="hero-card" data-hero-carousel>
+  <!-- Inner fixed-width content box -->
+  <div class="hero-inner">
+    <!-- Slide 1 -->
+    <article class="hero-slide is-active" data-hero-slide>
+      <div class="hero-car-label">Featured build</div>
+      <div class="hero-car-name">2002 Nightspec RX-7</div>
+      <div class="hero-card-strip">
+        <span class="hero-tag-pill">Twin-Turbo Rotary</span>
+        <span class="hero-tag-pill">Midnight Blue</span>
+        <span class="hero-tag-pill">Street Legal*</span>
+      </div>
+      <div class="hero-spec-grid">
+        <div>
+          <div class="hero-spec-label">Power</div>
+          <div class="hero-spec-value">420 HP</div>
+        </div>
+        <div>
+          <div class="hero-spec-label">0-100 km/h</div>
+          <div class="hero-spec-value">4.1 s</div>
+        </div>
+        <div>
+          <div class="hero-spec-label">Drive</div>
+          <div class="hero-spec-value">RWD</div>
+        </div>
+      </div>
+      <div class="hero-price-row">
+        <div>
+          <div class="hero-spec-label">Starting from</div>
+          <div class="hero-main-price">$128,000</div>
+        </div>
+        <div class="text-muted">Tap “Browse Cars” to see catalog</div>
+      </div>
+      <div class="hero-dummy-car"></div>
+    </article>
+
+    <!-- Slide 2 -->
+    <article class="hero-slide" data-hero-slide>
+      <div class="hero-car-label">Track weapon</div>
+      <div class="hero-car-name">2019 GT-R Blackline</div>
+      <div class="hero-card-strip">
+        <span class="hero-tag-pill">AWD Grip</span>
+        <span class="hero-tag-pill">Twin-Turbo V6</span>
+        <span class="hero-tag-pill">Track Ready</span>
+      </div>
+      <div class="hero-spec-grid">
+        <div>
+          <div class="hero-spec-label">Power</div>
+          <div class="hero-spec-value">565 HP</div>
+        </div>
+        <div>
+          <div class="hero-spec-label">0-100 km/h</div>
+          <div class="hero-spec-value">3.0 s</div>
+        </div>
+        <div>
+          <div class="hero-spec-label">Drive</div>
+          <div class="hero-spec-value">AWD</div>
+        </div>
+      </div>
+      <div class="hero-price-row">
+        <div>
+          <div class="hero-spec-label">Starting from</div>
+          <div class="hero-main-price">$155,000</div>
+        </div>
+        <div class="text-muted">Dial in the parts on the Cars page</div>
+      </div>
+      <div class="hero-dummy-car"></div>
+    </article>
+
+    <!-- Slide 3 -->
+    <article class="hero-slide" data-hero-slide>
+      <div class="hero-car-label">Electric outlaw</div>
+      <div class="hero-car-name">2024 Neon Flux Hatch</div>
+      <div class="hero-card-strip">
+        <span class="hero-tag-pill">EV Torque</span>
+        <span class="hero-tag-pill">Urban Stealth</span>
+        <span class="hero-tag-pill">Daily + Track</span>
+      </div>
+      <div class="hero-spec-grid">
+        <div>
+          <div class="hero-spec-label">Power</div>
+          <div class="hero-spec-value">390 HP (equiv.)</div>
+        </div>
+        <div>
+          <div class="hero-spec-label">0-100 km/h</div>
+          <div class="hero-spec-value">3.7 s</div>
+        </div>
+        <div>
+          <div class="hero-spec-label">Range</div>
+          <div class="hero-spec-value">420 km</div>
+        </div>
+      </div>
+      <div class="hero-price-row">
+        <div>
+          <div class="hero-spec-label">Starting from</div>
+          <div class="hero-main-price">$89,000</div>
+        </div>
+        <div class="text-muted">Perfect build for a daily racer</div>
+      </div>
+      <div class="hero-dummy-car"></div>
+    </article>
+  </div>
+
+  <!-- Prev / Next buttons (outside inner) -->
+  <div class="hero-nav-buttons">
+    <button
+      class="hero-nav-btn hero-nav-btn-prev"
+      type="button"
+      data-hero-prev
+      aria-label="Previous featured build"
+    >
+      ‹
+    </button>
+    <button
+      class="hero-nav-btn hero-nav-btn-next"
+      type="button"
+      data-hero-next
+      aria-label="Next featured build"
+    >
+      ›
+    </button>
+  </div>
+
+  <!-- Dots (also outside inner) -->
+  <div class="hero-carousel-dots" aria-label="Featured build selector">
+    <button
+      class="hero-carousel-dot is-active"
+      type="button"
+      data-hero-dot="0"
+      aria-label="Show RX-7"
+    ></button>
+    <button
+      class="hero-carousel-dot"
+      type="button"
+      data-hero-dot="1"
+      aria-label="Show GT-R"
+    ></button>
+    <button
+      class="hero-carousel-dot"
+      type="button"
+      data-hero-dot="2"
+      aria-label="Show Neon Flux"
+    ></button>
+  </div>
+</aside>
+
+
+          
         </section>
 
         <!-- Quick deals -->
@@ -97,8 +216,7 @@
           <div class="section-header">
             <h2 class="section-title">Hot Deals</h2>
             <p class="section-subtitle">
-              Limited-time promos on cars and parts. Perfect for your CI/CD
-              test data.
+              Limited-time promos on cars and parts. Grab them before they disappear!
             </p>
           </div>
 
