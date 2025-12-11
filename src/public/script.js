@@ -132,7 +132,7 @@ async function register() {
     } else { alert(data.error); }
   } catch(err){ console.error(err); alert('Error registering'); }
 }
-
+}
 async function login() {
   const name = document.getElementById('loginName').value;
   const password = document.getElementById('loginPassword').value;
