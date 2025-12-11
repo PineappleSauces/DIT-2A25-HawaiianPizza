@@ -1,6 +1,6 @@
 // routers/Cart.router.js
 const express = require('express');
-const cartController = require('../public/cartController');
+const cartController = require('../controllers/cartController');
 
 const router = express.Router();
 
