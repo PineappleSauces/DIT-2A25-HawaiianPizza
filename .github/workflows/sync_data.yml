@@ -1,0 +1,38 @@
+# code to copy the data from Neon database to the GitHub repository, in case database_url env not working
+
+name: Sync Neon Data to Repo
+
+on:
+  # Define when this workflow should run (e.g., schedule, manual trigger)
+  workflow_dispatch:
+  # Optionally run on a schedule, e.g., every day at midnight UTC
+  # schedule:
+  #   - cron: '0 0 * * *'
+
+jobs:
+  export_and_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Export data from Neon DB
+        # Use pg_dump with your DATABASE_URL secret
+        run: pg_dump --data-only --dbname=${{ secrets.DATABASE_URL }} > dump.sql
+        # Note: --data-only flag dumps only data, not schema
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add dump.sql
+          git commit -m "Automated data sync from Neon DB" || echo "No data changes to commit"
+          git push origin HEAD
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use the NEON_API_KEY secret set up in your repo
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }} # Use the variable
