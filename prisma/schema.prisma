@@ -24,21 +24,15 @@ model cars {
   price_display String
   description   String
   carsid        String
+
+  comparisons Comparison[]
 }
 
-//Item model for items in the category, assisted by AI
-model Item {
-  id          Int      @id @default(autoincrement())
-  name        String
-  categoryId  Int
-  category    Category @relation(fields: [categoryId], references: [id])
-}
-model CartItem {
-  id         Int      @id @default(autoincrement())
-  productId  Int      
-  name       String   
-  type       String?  
-  unitPrice  Int      
-  quantity   Int      @default(1)
-  createdAt  DateTime @default(now())
+model Comparison {
+  id        Int    @id @default(autoincrement())
+  sessionId String
+  carId     Int
+  car       cars   @relation(fields: [carId], references: [id])
+
+  @@map("comparisons")
 }
