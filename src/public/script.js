@@ -314,7 +314,7 @@ function renderCars(cars) {
 
   cars.forEach((car) => {
     // Adjust field names if your backend returns different keys
-    const id = car.carsid || car.product_id || car.id; // fallback options
+    const id = car.id;
     const name = car.name;
     const type = car.type;
     const power = car.power || '';
@@ -324,7 +324,7 @@ function renderCars(cars) {
     const cardHtml = `
       <article
         class="product-card"
-        data-product-id="${id}"
+        data-product-id="${car.id}"
         data-product-name="${name}"
         data-product-type="${type}"
         data-product-power="${power}"
@@ -352,6 +352,61 @@ function renderCars(cars) {
 
     grid.insertAdjacentHTML('beforeend', cardHtml);
   });
+}
+
+// ---- SESSION ID HELPER ----
+function getCompareSessionId() {
+  let id = localStorage.getItem('compareSessionId');
+  if (!id) {
+    id = 'cmp_' + Math.random().toString(36).slice(2);
+    localStorage.setItem('compareSessionId', id);
+  }
+  return id;
+}
+
+// ---- TOGGLE COMPARE (full stack) ----
+async function toggleCompareForCard(cardEl) {
+  const sessionId = getCompareSessionId();
+  const carId = Number(cardEl.dataset.productId);
+
+  if (!Number.isInteger(carId)) {
+    alert("Internal error: invalid car ID on card.");
+    console.error("Invalid data-product-id:", cardEl.dataset.productId);
+    return;
+  }
+
+  const res = await fetch("/api/compare", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Session-Id": sessionId
+    },
+    body: JSON.stringify({ car_id: carId })
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    alert(data.error || "Failed to add car to comparison.");
+    return;
+  }
+
+  alert("Car added to comparison");
+}
+
+
+
+// ---- WIRE COMPARE BUTTONS AFTER RENDERING CARDS ----
+function wireCardButtons() {
+  document.querySelectorAll('[data-compare-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.product-card');
+      if (!card) return;
+      toggleCompareForCard(card);
+    });
+  });
+
+  // your existing add-to-cart wiring can remain here too
 }
 
 // Wire compare/add-cart buttons for dynamically created cards
@@ -437,13 +492,35 @@ if (updateProfileBtn) {
 document.addEventListener('DOMContentLoaded', loadProfile);
   renderCompareBar();
 
-  // 🔥 Load cars from backend + render cards
+// -------- PAGE CHECK (VERY IMPORTANT) --------
+const currentPage = window.location.pathname.split("/").pop();
+
+// Only load & render cars on cars.html
+if (currentPage === "cars.html") {
   const cars = await fetchCars();
-  await renderCars(cars);
+  renderCars(cars);
 
   // Wire buttons on the newly rendered cards
   wireCardButtons();
 
   // Setup filters AFTER cards exist
   setupFilters();
+}
+
 });
+
+// reset comparison
+async function resetComparisonSession() {
+  const sessionId = localStorage.getItem("compareSessionId");
+  if (!sessionId) return;
+
+  await fetch("/api/compare/reset", {
+    method: "DELETE",
+    headers: {
+      "X-Session-Id": sessionId
+    }
+  });
+
+  localStorage.removeItem("compareSessionId");
+  alert("Comparison cleared. You can select new cars.");
+}
