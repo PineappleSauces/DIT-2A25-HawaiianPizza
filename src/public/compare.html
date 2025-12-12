@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Compare Cars</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="comparePage.js"></script>
+</head>
+
+<body>
+
+  <!-- PAGE HEADER -->
+  <header class="container py-4">
+    <h1>Car Comparison</h1>
+    <p>Selecting two cars helps you compare performance quickly.</p>
+
+    <!-- NAVBAR (must be nav, not header) -->
+    <nav class="navbar">
+      <a href="index.html" class="navbar-left brand-link">
+        <div class="brand-mark"></div>
+      </a>
+
+      <div class="nav-links">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="cars.html">Cars</a>
+        <a class="nav-link" href="parts.html">Car Parts</a>
+        <a class="nav-link" href="deals.html">Deals</a>
+        <a class="nav-link" href="profile.html">Profile</a>
+        <a class="nav-link" href="cart.html">Cart</a>
+        <a class="nav-link active" href="compare.html">Compare</a>
+      </div>
+
+      <div class="nav-profile">
+        <a href="profile.html" id="navGreeting">Hello, Guest</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="container">
+    <section id="compareGrid" class="product-grid"></section>
+
+    <section id="compareStats" class="comparison-summary mt-4"></section>
+
+    <button id="resetCompareBtn" class="btn btn-ghost mt-3">
+      Reset Comparison
+    </button>
+  </main>
+
+</body>
+</html>
