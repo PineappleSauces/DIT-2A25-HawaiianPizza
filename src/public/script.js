@@ -116,7 +116,7 @@ function openCompareModal() {
   const items = getCompareItems();
 
   if (!backdrop || !tableBody) return;
-
+}
 function closeCompareModal() {
   const backdrop = document.getElementById("compareBackdrop");
   if (!backdrop) return;
@@ -142,7 +142,7 @@ async function register() {
     } else { alert(data.error); }
   } catch(err){ console.error(err); alert('Error registering'); }
 }
-}
+
 async function login() {
   const name = document.getElementById('loginName').value;
   const password = document.getElementById('loginPassword').value;
