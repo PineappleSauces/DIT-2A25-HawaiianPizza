@@ -8,6 +8,8 @@ const somethingRouter = require('./routers/Something.router');
 const personRouter = require('./routers/Person.router');
 const cartRouter = require('./routers/Cart.router');
 const compareRoutes = require('./routers/compareRoutes');
+const categoriesRouter = require('./routers/categories');
+const carPartsRoutes = require('./routers/carPartsRoutes');
 
 const path = require('path');
 
@@ -22,6 +24,10 @@ app.use('/cars', require('./routers/carsRoutes'));
 //compare page routes
 app.use('/api/compare', compareRoutes);
 
+//categories page routes
+app.use('/api/categories', categoriesRouter);
+//car parts page routes
+app.use('/api/carParts', carPartsRoutes);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/somethings', somethingRouter);

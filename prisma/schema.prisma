@@ -7,8 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// prisma category model for the category filter, ai assisted
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  slug      String    @unique
+  type      String?
+  carParts  carParts[]
+  cars      cars[]
+}
+
+
 model carParts {
   id            Int     @id @default(autoincrement())
+  categoryId    Int
+  category      Category @relation(fields: [categoryId], references: [id])
   name          String
   type          String
   price_display String
@@ -18,6 +31,8 @@ model carParts {
 
 model cars {
   id            Int          @id @default(autoincrement())
+  categoryId    Int
+  category      Category @relation(fields: [categoryId], references: [id])
   name          String
   type          String
   power         String

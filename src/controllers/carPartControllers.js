@@ -1,30 +1,30 @@
-const carsModels = require('../models/carsModels');
-//prisma for the cars category filter
-const prisma = require('../../prisma/prismaClient.js')
+const carPartModels = require('../models/carPartModels');
+//prisma for the car parts category filter
+const prisma = require('../prismaClient');
 
-async function getAllCars(req, res) {
-  const cars = await carsModels.getAllCars();
-  res.json(cars);
+async function getAllCarParts(req, res) {
+  const carParts = await carPartModels.getAllCarParts();
+  res.json(carParts);
 }
 
-async function getCar(req, res) {
-  const car = await carsModels.getCarByCarsId(req.params.carsid);
-  res.json(car);
+async function getCarParts(req, res) {
+  const carPart = await carPartModels.getCarPartById(req.params.carPartsid);
+  res.json(carPart);
 }
 
 module.exports = {
-  getAllCars,
-  getCar
+  getAllCarParts,
+  getCarParts
 };
 
-//Car category filter code
+//Car parts category filter code
 
 function parseCategoriesRaw(raw) {
   if (!raw) return null;
   return raw.split(',').map(s => s.trim()).filter(Boolean);
 }
 
-async function searchCars(req, res) {
+async function searchCarParts(req, res) {
   try {
     const { categories, q, minPrice, maxPrice } = req.query;
     const rawCats = parseCategoriesRaw(categories);
@@ -159,4 +159,4 @@ async function searchProducts(req, res) {
   }
 }
 
-module.exports = { searchCars };
+module.exports = { searchCarParts };
